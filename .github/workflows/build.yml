@@ -27,6 +27,7 @@ jobs:
           rm -rf app
           mkdir -p app
           rsync -a "$SOURCE_APP_DIR"/ app/
+          perl -0pi -e 's/\r\n/\n/g' app/project.yml
           echo "APP_DIR=$GITHUB_WORKSPACE/app" >> "$GITHUB_ENV"
 
       - name: Setup Xcode
