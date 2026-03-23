@@ -19,12 +19,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Locate app directory
+      - name: Prepare ASCII build directory
         shell: bash
         run: |
-          APP_DIR="$(find . -mindepth 2 -maxdepth 2 -name project.yml -print -quit | xargs dirname)"
-          test -n "$APP_DIR"
-          echo "APP_DIR=$APP_DIR" >> "$GITHUB_ENV"
+          SOURCE_APP_DIR="$(find . -mindepth 2 -maxdepth 2 -name project.yml -print -quit | xargs dirname)"
+          test -n "$SOURCE_APP_DIR"
+          rm -rf app
+          mkdir -p app
+          rsync -a "$SOURCE_APP_DIR"/ app/
+          echo "APP_DIR=$GITHUB_WORKSPACE/app" >> "$GITHUB_ENV"
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
