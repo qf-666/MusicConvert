@@ -41,63 +41,38 @@ targets:
         INFOPLIST_KEY_UIFileSharingEnabled: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
-        INFOPLIST_KEY_CFBundleDocumentTypes: |
-          <array>
-            <dict>
-              <key>CFBundleTypeName</key>
-              <string>KGM Audio</string>
-              <key>LSItemContentTypes</key>
-              <array>
-                <string>com.kugou.kgm</string>
-                <string>com.kugou.kgma</string>
-                <string>com.kugou.vpr</string>
-              </array>
-              <key>LSHandlerRank</key>
-              <string>Alternate</string>
-            </dict>
-          </array>
-        INFOPLIST_KEY_UTImportedTypeDeclarations: |
-          <array>
-            <dict>
-              <key>UTTypeIdentifier</key>
-              <string>com.kugou.kgm</string>
-              <key>UTTypeConformsTo</key>
-              <array><string>public.data</string></array>
-              <key>UTTypeDescription</key>
-              <string>KuGou Music File</string>
-              <key>UTTypeTagSpecification</key>
-              <dict>
-                <key>public.filename-extension</key>
-                <array><string>kgm</string></array>
-              </dict>
-            </dict>
-            <dict>
-              <key>UTTypeIdentifier</key>
-              <string>com.kugou.kgma</string>
-              <key>UTTypeConformsTo</key>
-              <array><string>public.data</string></array>
-              <key>UTTypeDescription</key>
-              <string>KuGou Music File</string>
-              <key>UTTypeTagSpecification</key>
-              <dict>
-                <key>public.filename-extension</key>
-                <array><string>kgma</string></array>
-              </dict>
-            </dict>
-            <dict>
-              <key>UTTypeIdentifier</key>
-              <string>com.kugou.vpr</string>
-              <key>UTTypeConformsTo</key>
-              <array><string>public.data</string></array>
-              <key>UTTypeDescription</key>
-              <string>KuGou VPR File</string>
-              <key>UTTypeTagSpecification</key>
-              <dict>
-                <key>public.filename-extension</key>
-                <array><string>vpr</string></array>
-              </dict>
-            </dict>
-          </array>
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+    info:
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: KGM Audio
+            LSItemContentTypes:
+              - com.kugou.kgm
+              - com.kugou.kgma
+              - com.kugou.vpr
+            LSHandlerRank: Alternate
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: com.kugou.kgm
+            UTTypeConformsTo:
+              - public.data
+            UTTypeDescription: KuGou Music File
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - kgm
+          - UTTypeIdentifier: com.kugou.kgma
+            UTTypeConformsTo:
+              - public.data
+            UTTypeDescription: KuGou Music File
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - kgma
+          - UTTypeIdentifier: com.kugou.vpr
+            UTTypeConformsTo:
+              - public.data
+            UTTypeDescription: KuGou VPR File
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - vpr>
     dependencies:
       - package: FFmpegIOS
         product: FFmpeg-iOS

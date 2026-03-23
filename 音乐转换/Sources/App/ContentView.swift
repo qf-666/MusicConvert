@@ -58,7 +58,12 @@ struct ContentView: View {
         }
         .fileImporter(
             isPresented: $isAudioImporterPresented,
-            allowedContentTypes: [.audio, .data, .item],
+            allowedContentTypes: [
+                .audio,
+                UTType(exportedAs: "com.kugou.kgm"),
+                UTType(exportedAs: "com.kugou.kgma"),
+                UTType(exportedAs: "com.kugou.vpr")
+            ],
             allowsMultipleSelection: true
         ) { result in
             switch result {
