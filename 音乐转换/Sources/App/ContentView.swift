@@ -3,13 +3,17 @@ import UniformTypeIdentifiers
 import UIKit
 
 private enum ImportPickerMode: String, Identifiable {
-    case singleFile
+    case files
+    case folder
 
     var id: String { rawValue }
 }
 
-private struct SingleFileDocumentPicker: UIViewControllerRepresentable {
-    let onPick: (URL) -> Void
+private struct ImportDocumentPicker: UIViewControllerRepresentable {
+    let contentTypes: [UTType]
+    let allowsMultipleSelection: Bool
+    let asCopy: Bool
+    let onPick: ([URL]) -> Void
     let onCancel: () -> Void
 
     func makeCoordinator() -> Coordinator {
@@ -18,11 +22,11 @@ private struct SingleFileDocumentPicker: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let picker = UIDocumentPickerViewController(
-            forOpeningContentTypes: [.item],
-            asCopy: true
+            forOpeningContentTypes: contentTypes,
+            asCopy: asCopy
         )
         picker.delegate = context.coordinator
-        picker.allowsMultipleSelection = false
+        picker.allowsMultipleSelection = allowsMultipleSelection
         picker.shouldShowFileExtensions = true
         return picker
     }
@@ -30,10 +34,10 @@ private struct SingleFileDocumentPicker: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
 
     final class Coordinator: NSObject, UIDocumentPickerDelegate {
-        private let onPick: (URL) -> Void
+        private let onPick: ([URL]) -> Void
         private let onCancel: () -> Void
 
-        init(onPick: @escaping (URL) -> Void, onCancel: @escaping () -> Void) {
+        init(onPick: @escaping ([URL]) -> Void, onCancel: @escaping () -> Void) {
             self.onPick = onPick
             self.onCancel = onCancel
         }
@@ -43,12 +47,12 @@ private struct SingleFileDocumentPicker: UIViewControllerRepresentable {
         }
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            guard let url = urls.first else {
+            guard !urls.isEmpty else {
                 onCancel()
                 return
             }
 
-            onPick(url)
+            onPick(urls)
         }
     }
 }
@@ -124,11 +128,32 @@ struct ContentView: View {
         }
         .sheet(item: $activeImportPicker) { picker in
             switch picker {
-            case .singleFile:
-                SingleFileDocumentPicker(
-                    onPick: { url in
+            case .files:
+                ImportDocumentPicker(
+                    contentTypes: [.item],
+                    allowsMultipleSelection: true,
+                    asCopy: true,
+                    onPick: { urls in
                         activeImportPicker = nil
-                        viewModel.importSingleFileAndStart(from: url)
+                        if urls.count == 1, viewModel.totalCount == 0 {
+                            viewModel.importSingleFileAndStart(from: urls[0])
+                        } else {
+                            viewModel.importFiles(from: urls)
+                        }
+                    },
+                    onCancel: {
+                        activeImportPicker = nil
+                    }
+                )
+            case .folder:
+                ImportDocumentPicker(
+                    contentTypes: [.folder],
+                    allowsMultipleSelection: false,
+                    asCopy: false,
+                    onPick: { urls in
+                        activeImportPicker = nil
+                        guard let folderURL = urls.first else { return }
+                        viewModel.importFolder(from: folderURL)
                     },
                     onCancel: {
                         activeImportPicker = nil
@@ -225,15 +250,17 @@ struct ContentView: View {
                 title: AppText.buttonImportFolder,
                 systemImage: "folder.badge.plus"
             ) {
-                viewModel.presentFolderImportUnavailable()
+                activeImportPicker = .folder
             }
+            .disabled(viewModel.isConverting)
 
             actionButton(
                 title: AppText.buttonSelectFiles,
                 systemImage: "doc.badge.plus"
             ) {
-                activeImportPicker = .singleFile
+                activeImportPicker = .files
             }
+            .disabled(viewModel.isConverting)
 
             Text(AppText.importHintSingleFile)
                 .font(.system(size: 12, weight: .medium, design: .rounded))

@@ -29,11 +29,7 @@ final class ConversionViewModel: ObservableObject {
     }
 
     func importSingleFileAndStart(from url: URL) {
-        guard !isConverting else {
-            errorMessage = AppText.importBlockedWhileConverting
-            appendLog(AppText.logError(AppText.importBlockedWhileConverting))
-            return
-        }
+        guard canImport() else { return }
 
         do {
             let importedFile = try ImportedAudioFile.copyingFromPicker(url)
@@ -47,6 +43,8 @@ final class ConversionViewModel: ObservableObject {
     }
 
     func importFile(from url: URL) {
+        guard canImport() else { return }
+
         do {
             let importedFile = try ImportedAudioFile.copyingFromPicker(url)
             appendImportedFiles([importedFile])
@@ -56,6 +54,8 @@ final class ConversionViewModel: ObservableObject {
     }
 
     func importFiles(from urls: [URL]) {
+        guard canImport() else { return }
+
         do {
             let importedFiles = try ImportedAudioFile.copyingManyFromPicker(urls)
             guard !importedFiles.isEmpty else {
@@ -70,6 +70,8 @@ final class ConversionViewModel: ObservableObject {
     }
 
     func importFolder(from url: URL) {
+        guard canImport() else { return }
+
         do {
             let importedFiles = try ImportedAudioFile.copyingAudioFilesFromDirectory(url)
             guard !importedFiles.isEmpty else {
@@ -81,11 +83,6 @@ final class ConversionViewModel: ObservableObject {
         } catch {
             present(error: error)
         }
-    }
-
-    func presentFolderImportUnavailable() {
-        errorMessage = AppText.importFolderUnavailable
-        appendLog(AppText.logFolderImportUnavailable)
     }
 
     func clearQueue() {
@@ -165,6 +162,16 @@ final class ConversionViewModel: ObservableObject {
                 : AppText.queueAdded(insertedCount)
             appendLog(statusMessage)
         }
+    }
+
+    private func canImport() -> Bool {
+        guard !isConverting else {
+            errorMessage = AppText.importBlockedWhileConverting
+            appendLog(AppText.logError(AppText.importBlockedWhileConverting))
+            return false
+        }
+
+        return true
     }
 
     private func runBatchConversion() async {

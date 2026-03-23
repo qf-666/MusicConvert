@@ -24,8 +24,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.qf666.musicconvert
         PRODUCT_NAME: MusicConvert
-        CURRENT_PROJECT_VERSION: 5
-        MARKETING_VERSION: 1.0.4
+        CURRENT_PROJECT_VERSION: 6
+        MARKETING_VERSION: 1.0.5
         DEVELOPMENT_TEAM: ""
         CODE_SIGNING_ALLOWED: NO
         CODE_SIGN_IDENTITY: ""
