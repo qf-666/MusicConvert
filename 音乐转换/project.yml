@@ -72,7 +72,7 @@ targets:
             UTTypeDescription: KuGou VPR File
             UTTypeTagSpecification:
               public.filename-extension:
-                - vpr>
+                - vpr
     dependencies:
       - package: FFmpegIOS
         product: FFmpeg-iOS
