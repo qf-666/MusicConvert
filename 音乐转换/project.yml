@@ -27,8 +27,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.qf666.musicconvert
         PRODUCT_NAME: MusicConvert
-        CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 2
+        MARKETING_VERSION: 1.0.1
         GENERATE_INFOPLIST_FILE: YES
         DEVELOPMENT_TEAM: ""
         CODE_SIGNING_ALLOWED: NO
@@ -54,6 +54,7 @@ targets:
         UTImportedTypeDeclarations:
           - UTTypeIdentifier: com.kugou.kgm
             UTTypeConformsTo:
+              - public.audio
               - public.data
             UTTypeDescription: KuGou Music File
             UTTypeTagSpecification:
@@ -61,6 +62,7 @@ targets:
                 - kgm
           - UTTypeIdentifier: com.kugou.kgma
             UTTypeConformsTo:
+              - public.audio
               - public.data
             UTTypeDescription: KuGou Music File
             UTTypeTagSpecification:
@@ -68,6 +70,7 @@ targets:
                 - kgma
           - UTTypeIdentifier: com.kugou.vpr
             UTTypeConformsTo:
+              - public.audio
               - public.data
             UTTypeDescription: KuGou VPR File
             UTTypeTagSpecification:

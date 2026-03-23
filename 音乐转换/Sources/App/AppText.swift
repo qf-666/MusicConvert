@@ -10,7 +10,7 @@ enum AppText {
     static let panelStats = "\u{7EDF}\u{8BA1}"
 
     static let heroTitle = "\u{672C}\u{5730}\u{97F3}\u{9891}\u{6279}\u{91CF}\u{8F6C}\u{6362}"
-    static let heroSubtitle = "\u{652F}\u{6301}\u{5BFC}\u{5165}\u{591A}\u{4E2A}\u{6587}\u{4EF6}\u{6216}\u{6574}\u{4E2A}\u{6587}\u{4EF6}\u{5939}\u{FF0C}\u{6309}\u{961F}\u{5217}\u{8FDB}\u{884C}\u{6279}\u{91CF}\u{8F6C}\u{7801}\u{3001}\u{67E5}\u{770B}\u{65E5}\u{5FD7}\u{4E0E}\u{7EDF}\u{8BA1}\u{FF0C}\u{5E76}\u{5355}\u{72EC}\u{5BFC}\u{51FA}\u{8F6C}\u{6362}\u{7ED3}\u{679C}\u{3002}"
+    static let heroSubtitle = "\u{652F}\u{6301}\u{5BFC}\u{5165}\u{5355}\u{4E2A}\u{6587}\u{4EF6}\u{6216}\u{6574}\u{4E2A}\u{6587}\u{4EF6}\u{5939}\u{FF0C}\u{6309}\u{961F}\u{5217}\u{8FDB}\u{884C}\u{8F6C}\u{7801}\u{3001}\u{67E5}\u{770B}\u{65E5}\u{5FD7}\u{4E0E}\u{7EDF}\u{8BA1}\u{FF0C}\u{5E76}\u{5355}\u{72EC}\u{5BFC}\u{51FA}\u{8F6C}\u{6362}\u{7ED3}\u{679C}\u{3002}"
 
     static let statTotal = "\u{603B}\u{6570}"
     static let statWaiting = "\u{7B49}\u{5F85}"
@@ -23,7 +23,7 @@ enum AppText {
     static let sectionProgress = "\u{8FDB}\u{5EA6}"
 
     static let buttonImportFolder = "\u{5BFC}\u{5165}\u{6587}\u{4EF6}\u{5939}"
-    static let buttonSelectFiles = "\u{9009}\u{62E9}\u{591A}\u{4E2A}\u{6587}\u{4EF6}"
+    static let buttonSelectFiles = "\u{9009}\u{62E9}\u{6587}\u{4EF6}"
     static let buttonClearQueue = "\u{6E05}\u{7A7A}\u{961F}\u{5217}"
     static let buttonPause = "\u{6682}\u{505C}"
     static let buttonResume = "\u{7EE7}\u{7EED}"
@@ -40,7 +40,7 @@ enum AppText {
     static let labelCurrentFile = "\u{5F53}\u{524D}\u{6587}\u{4EF6}"
 
     static let emptyQueueTitle = "\u{6682}\u{65E0}\u{6587}\u{4EF6}"
-    static let emptyQueueMessage = "\u{5148}\u{5BFC}\u{5165}\u{4E00}\u{4E2A}\u{6587}\u{4EF6}\u{5939}\u{6216}\u{591A}\u{4E2A}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{FF0C}\u{518D}\u{5F00}\u{59CB}\u{6279}\u{91CF}\u{8F6C}\u{6362}\u{3002}"
+    static let emptyQueueMessage = "\u{5148}\u{5BFC}\u{5165}\u{4E00}\u{4E2A}\u{6587}\u{4EF6}\u{5939}\u{6216}\u{4E00}\u{4E2A}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{FF0C}\u{518D}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{3002}"
     static let emptyLogTitle = "\u{6682}\u{65E0}\u{64CD}\u{4F5C}\u{8BB0}\u{5F55}"
     static let emptyLogMessage = "\u{5BFC}\u{5165}\u{6216}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{540E}\u{FF0C}\u{65E5}\u{5FD7}\u{4F1A}\u{663E}\u{793A}\u{5728}\u{8FD9}\u{91CC}\u{3002}"
 

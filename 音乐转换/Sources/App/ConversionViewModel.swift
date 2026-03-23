@@ -28,6 +28,15 @@ final class ConversionViewModel: ObservableObject {
         return Double(completedCount) / Double(totalCount)
     }
 
+    func importFile(from url: URL) {
+        do {
+            let importedFile = try ImportedAudioFile.copyingFromPicker(url)
+            appendImportedFiles([importedFile])
+        } catch {
+            present(error: error)
+        }
+    }
+
     func importFiles(from urls: [URL]) {
         do {
             let importedFiles = try ImportedAudioFile.copyingManyFromPicker(urls)

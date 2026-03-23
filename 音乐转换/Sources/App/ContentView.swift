@@ -1,6 +1,12 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+private extension UTType {
+    static let kugouKGM = UTType(importedAs: "com.kugou.kgm")
+    static let kugouKGMA = UTType(importedAs: "com.kugou.kgma")
+    static let kugouVPR = UTType(importedAs: "com.kugou.vpr")
+}
+
 private enum DashboardPanel: String, CaseIterable, Identifiable {
     case queue
     case log
@@ -187,16 +193,16 @@ struct ContentView: View {
             }
             .fileImporter(
                 isPresented: $isAudioImporterPresented,
-                allowedContentTypes: [.item, .audio],
-                allowsMultipleSelection: true
+                allowedContentTypes: [.audio, .kugouKGM, .kugouKGMA, .kugouVPR],
+                allowsMultipleSelection: false
             ) { result in
                 switch result {
                 case let .success(urls):
-                    guard !urls.isEmpty else {
+                    guard let fileURL = urls.first else {
                         viewModel.present(error: CocoaError(.fileReadUnknown))
                         return
                     }
-                    viewModel.importFiles(from: urls)
+                    viewModel.importFile(from: fileURL)
                 case let .failure(error):
                     viewModel.present(error: error)
                 }
