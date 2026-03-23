@@ -1,0 +1,105 @@
+name: MusicConvert
+options:
+  bundleIdPrefix: com.qf666
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: 5.10
+packages:
+  FFmpegIOS:
+    url: https://github.com/kewlbear/FFmpeg-iOS.git
+    branch: main
+  FFmpegIOSSupport:
+    url: https://github.com/kewlbear/FFmpeg-iOS-Support.git
+    branch: main
+targets:
+  MusicConvert:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: Sources
+    resources:
+      - path: Sources/Core/Resources
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.qf666.musicconvert
+        PRODUCT_NAME: MusicConvert
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 1.0.0
+        GENERATE_INFOPLIST_FILE: YES
+        DEVELOPMENT_TEAM: ""
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGN_IDENTITY: ""
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+        INFOPLIST_KEY_CFBundleDisplayName: "\u97F3\u4E50\u8F6C\u6362"
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.music
+        INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace: YES
+        INFOPLIST_KEY_UIFileSharingEnabled: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_CFBundleDocumentTypes: |
+          <array>
+            <dict>
+              <key>CFBundleTypeName</key>
+              <string>KGM Audio</string>
+              <key>LSItemContentTypes</key>
+              <array>
+                <string>com.kugou.kgm</string>
+                <string>com.kugou.kgma</string>
+                <string>com.kugou.vpr</string>
+              </array>
+              <key>LSHandlerRank</key>
+              <string>Alternate</string>
+            </dict>
+          </array>
+        INFOPLIST_KEY_UTImportedTypeDeclarations: |
+          <array>
+            <dict>
+              <key>UTTypeIdentifier</key>
+              <string>com.kugou.kgm</string>
+              <key>UTTypeConformsTo</key>
+              <array><string>public.data</string></array>
+              <key>UTTypeDescription</key>
+              <string>KuGou Music File</string>
+              <key>UTTypeTagSpecification</key>
+              <dict>
+                <key>public.filename-extension</key>
+                <array><string>kgm</string></array>
+              </dict>
+            </dict>
+            <dict>
+              <key>UTTypeIdentifier</key>
+              <string>com.kugou.kgma</string>
+              <key>UTTypeConformsTo</key>
+              <array><string>public.data</string></array>
+              <key>UTTypeDescription</key>
+              <string>KuGou Music File</string>
+              <key>UTTypeTagSpecification</key>
+              <dict>
+                <key>public.filename-extension</key>
+                <array><string>kgma</string></array>
+              </dict>
+            </dict>
+            <dict>
+              <key>UTTypeIdentifier</key>
+              <string>com.kugou.vpr</string>
+              <key>UTTypeConformsTo</key>
+              <array><string>public.data</string></array>
+              <key>UTTypeDescription</key>
+              <string>KuGou VPR File</string>
+              <key>UTTypeTagSpecification</key>
+              <dict>
+                <key>public.filename-extension</key>
+                <array><string>vpr</string></array>
+              </dict>
+            </dict>
+          </array>
+    dependencies:
+      - package: FFmpegIOS
+        product: FFmpeg-iOS
+      - package: FFmpegIOSSupport
+        product: FFmpeg-iOS-Support
