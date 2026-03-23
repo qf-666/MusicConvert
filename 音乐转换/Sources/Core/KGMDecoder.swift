@@ -115,6 +115,7 @@ enum KGMDecoder {
     private static let headerLen = 1024
     private static let ownKeyLen = 17
     private static let pubKeyMagnification = 16
+    private static let pubKeyLength = 73_155_904
 
     private static let magicHeader: [UInt8] = [
         0x7C, 0xD5, 0x32, 0xEB, 0x86, 0x02, 0x7F, 0x4B,
@@ -158,61 +159,36 @@ enum KGMDecoder {
 
         guard let keyURL = Bundle.main.url(
             forResource: "kugou_key",
-            withExtension: "lzma"
+            withExtension: "zlib"
         ) else {
             throw DecoderError.pubKeyLoadFailed
         }
 
         let compressedData = try Data(contentsOf: keyURL)
-        let decompressed = try decompressLZMA(compressedData)
+        let decompressed = try decompressPubKey(compressedData)
         cachedPubKey = decompressed
         return decompressed
     }
 
-    /// Decompress LZMA-alone formatted data using Apple's Compression framework.
-    private static func decompressLZMA(_ data: Data) throws -> [UInt8] {
-        // LZMA alone format: 13-byte header (1 byte props + 4 bytes dict size + 8 bytes uncompressed size)
-        // The Compression framework expects raw LZMA stream without the header.
-        guard data.count > 13 else {
-            throw DecoderError.decompressFailed
-        }
-
-        // Extract uncompressed size from LZMA header (bytes 5-12, little-endian)
-        let uncompressedSize: Int
-        let sizeBytes = data[5..<13]
-        var size: UInt64 = 0
-        for (i, byte) in sizeBytes.enumerated() {
-            size |= UInt64(byte) << (i * 8)
-        }
-        if size == UInt64.max {
-            // Unknown size, use a reasonable estimate
-            uncompressedSize = 80_000_000
-        } else {
-            uncompressedSize = Int(size)
-        }
-
-        let compressedPayload = data[13...]
-
-        var decompressed = [UInt8](repeating: 0, count: uncompressedSize)
-        let decompressedSize = compressedPayload.withUnsafeBytes { srcPtr -> Int in
+    /// Decompresses the bundled public key that is prepacked with zlib.
+    private static func decompressPubKey(_ data: Data) throws -> [UInt8] {
+        var decompressed = [UInt8](repeating: 0, count: Self.pubKeyLength)
+        let decompressedSize = data.withUnsafeBytes { srcPtr -> Int in
             let srcBuffer = srcPtr.bindMemory(to: UInt8.self)
             return compression_decode_buffer(
                 &decompressed,
-                uncompressedSize,
+                decompressed.count,
                 srcBuffer.baseAddress!,
                 srcBuffer.count,
                 nil,
-                COMPRESSION_LZMA
+                COMPRESSION_ZLIB
             )
         }
 
-        guard decompressedSize > 0 else {
+        guard decompressedSize == decompressed.count else {
             throw DecoderError.decompressFailed
         }
 
-        if decompressedSize < decompressed.count {
-            decompressed.removeSubrange(decompressedSize...)
-        }
         return decompressed
     }
 
