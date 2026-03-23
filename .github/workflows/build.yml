@@ -37,6 +37,15 @@ jobs:
       - name: Install XcodeGen
         run: brew install xcodegen
 
+      - name: Inspect build directory
+        shell: bash
+        run: |
+          cd "$APP_DIR"
+          pwd
+          find . -maxdepth 3 -print | sort
+          echo "----- project.yml -----"
+          cat project.yml
+
       - name: Generate Xcode project
         shell: bash
         run: |
