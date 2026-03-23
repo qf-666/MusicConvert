@@ -28,6 +28,24 @@ final class ConversionViewModel: ObservableObject {
         return Double(completedCount) / Double(totalCount)
     }
 
+    func importSingleFileAndStart(from url: URL) {
+        guard !isConverting else {
+            errorMessage = AppText.importBlockedWhileConverting
+            appendLog(AppText.logError(AppText.importBlockedWhileConverting))
+            return
+        }
+
+        do {
+            let importedFile = try ImportedAudioFile.copyingFromPicker(url)
+            queueItems.removeAll()
+            currentFileName = AppText.currentNone
+            appendImportedFiles([importedFile])
+            startConversion()
+        } catch {
+            present(error: error)
+        }
+    }
+
     func importFile(from url: URL) {
         do {
             let importedFile = try ImportedAudioFile.copyingFromPicker(url)
@@ -56,12 +74,18 @@ final class ConversionViewModel: ObservableObject {
             let importedFiles = try ImportedAudioFile.copyingAudioFilesFromDirectory(url)
             guard !importedFiles.isEmpty else {
                 errorMessage = AppText.importFolderEmpty
+                appendLog(AppText.logError(AppText.importFolderEmpty))
                 return
             }
             appendImportedFiles(importedFiles)
         } catch {
             present(error: error)
         }
+    }
+
+    func presentFolderImportUnavailable() {
+        errorMessage = AppText.importFolderUnavailable
+        appendLog(AppText.logFolderImportUnavailable)
     }
 
     func clearQueue() {

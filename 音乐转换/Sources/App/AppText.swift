@@ -9,8 +9,8 @@ enum AppText {
     static let panelLog = "\u{65E5}\u{5FD7}"
     static let panelStats = "\u{7EDF}\u{8BA1}"
 
-    static let heroTitle = "\u{672C}\u{5730}\u{97F3}\u{9891}\u{6279}\u{91CF}\u{8F6C}\u{6362}"
-    static let heroSubtitle = "\u{652F}\u{6301}\u{5BFC}\u{5165}\u{5355}\u{4E2A}\u{6587}\u{4EF6}\u{6216}\u{6574}\u{4E2A}\u{6587}\u{4EF6}\u{5939}\u{FF0C}\u{6309}\u{961F}\u{5217}\u{8FDB}\u{884C}\u{8F6C}\u{7801}\u{3001}\u{67E5}\u{770B}\u{65E5}\u{5FD7}\u{4E0E}\u{7EDF}\u{8BA1}\u{FF0C}\u{5E76}\u{5355}\u{72EC}\u{5BFC}\u{51FA}\u{8F6C}\u{6362}\u{7ED3}\u{679C}\u{3002}"
+    static let heroTitle = "\u{672C}\u{5730}\u{97F3}\u{9891}\u{5355}\u{6587}\u{4EF6}\u{8F6C}\u{6362}"
+    static let heroSubtitle = "\u{5F53}\u{524D}\u{0049}\u{004F}\u{0053}\u{7248}\u{672C}\u{4F18}\u{5148}\u{652F}\u{6301}\u{9009}\u{62E9}\u{5355}\u{4E2A}\u{672C}\u{5730}\u{6587}\u{4EF6}\u{5E76}\u{76F4}\u{63A5}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{FF0C}\u{8F6C}\u{6362}\u{5B8C}\u{540E}\u{53EF}\u{5728}\u{961F}\u{5217}\u{4E2D}\u{5BFC}\u{51FA}\u{7ED3}\u{679C}\u{3002}"
 
     static let statTotal = "\u{603B}\u{6570}"
     static let statWaiting = "\u{7B49}\u{5F85}"
@@ -22,8 +22,8 @@ enum AppText {
     static let sectionControls = "\u{63A7}\u{5236}"
     static let sectionProgress = "\u{8FDB}\u{5EA6}"
 
-    static let buttonImportFolder = "\u{5BFC}\u{5165}\u{6587}\u{4EF6}\u{5939}"
-    static let buttonSelectFiles = "\u{9009}\u{62E9}\u{6587}\u{4EF6}"
+    static let buttonImportFolder = "\u{5BFC}\u{5165}\u{6587}\u{4EF6}\u{5939}\u{FF08}\u{7A0D}\u{540E}\u{652F}\u{6301}\u{FF09}"
+    static let buttonSelectFiles = "\u{9009}\u{62E9}\u{5355}\u{4E2A}\u{6587}\u{4EF6}"
     static let buttonClearQueue = "\u{6E05}\u{7A7A}\u{961F}\u{5217}"
     static let buttonPause = "\u{6682}\u{505C}"
     static let buttonResume = "\u{7EE7}\u{7EED}"
@@ -40,7 +40,8 @@ enum AppText {
     static let labelCurrentFile = "\u{5F53}\u{524D}\u{6587}\u{4EF6}"
 
     static let emptyQueueTitle = "\u{6682}\u{65E0}\u{6587}\u{4EF6}"
-    static let emptyQueueMessage = "\u{5148}\u{5BFC}\u{5165}\u{4E00}\u{4E2A}\u{6587}\u{4EF6}\u{5939}\u{6216}\u{4E00}\u{4E2A}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{FF0C}\u{518D}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{3002}"
+    static let emptyQueueMessage = "\u{70B9}\u{201C}\u{9009}\u{62E9}\u{5355}\u{4E2A}\u{6587}\u{4EF6}\u{201D}\u{540E}\u{FF0C}\u{9009}\u{4E2D}\u{4E00}\u{4E2A}\u{97F3}\u{9891}\u{6216}\u{004B}\u{0047}\u{004D}\u{6587}\u{4EF6}\u{5373}\u{53EF}\u{76F4}\u{63A5}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{3002}"
+    static let importHintSingleFile = "\u{5F53}\u{524D}\u{4F18}\u{5148}\u{4FDD}\u{8BC1}\u{5355}\u{6587}\u{4EF6}\u{8DEF}\u{5F84}\u{53EF}\u{7528}\u{FF1A}\u{53EF}\u{76F4}\u{63A5}\u{9009}\u{62E9}\u{002E}\u{006B}\u{0067}\u{006D}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{0061}\u{3001}\u{002E}\u{0076}\u{0070}\u{0072}\u{6216}\u{5E38}\u{89C4}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{3002}"
     static let emptyLogTitle = "\u{6682}\u{65E0}\u{64CD}\u{4F5C}\u{8BB0}\u{5F55}"
     static let emptyLogMessage = "\u{5BFC}\u{5165}\u{6216}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{540E}\u{FF0C}\u{65E5}\u{5FD7}\u{4F1A}\u{663E}\u{793A}\u{5728}\u{8FD9}\u{91CC}\u{3002}"
 
@@ -79,6 +80,8 @@ enum AppText {
 
     static let importUnsupported = "\u{672A}\u{5BFC}\u{5165}\u{5230}\u{53EF}\u{652F}\u{6301}\u{7684}\u{672C}\u{5730}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{3002}"
     static let importFolderEmpty = "\u{6240}\u{9009}\u{6587}\u{4EF6}\u{5939}\u{4E2D}\u{6CA1}\u{6709}\u{53EF}\u{652F}\u{6301}\u{7684}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{3002}"
+    static let importFolderUnavailable = "\u{5F53}\u{524D}\u{0049}\u{004F}\u{0053}\u{7248}\u{672C}\u{5148}\u{53EA}\u{4FDD}\u{8BC1}\u{5355}\u{6587}\u{4EF6}\u{5BFC}\u{5165}\u{53EF}\u{7528}\u{FF0C}\u{8BF7}\u{70B9}\u{201C}\u{9009}\u{62E9}\u{5355}\u{4E2A}\u{6587}\u{4EF6}\u{201D}\u{5BFC}\u{5165}\u{002E}\u{006B}\u{0067}\u{006D}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{0061}\u{3001}\u{002E}\u{0076}\u{0070}\u{0072}\u{6216}\u{5E38}\u{89C4}\u{97F3}\u{9891}\u{3002}"
+    static let importBlockedWhileConverting = "\u{8BF7}\u{5148}\u{505C}\u{6B62}\u{5F53}\u{524D}\u{8F6C}\u{6362}\u{FF0C}\u{518D}\u{9009}\u{62E9}\u{65B0}\u{6587}\u{4EF6}\u{3002}"
     static let clearQueueBlocked = "\u{8BF7}\u{5728}\u{672C}\u{8F6E}\u{8F6C}\u{6362}\u{5B8C}\u{6210}\u{540E}\u{518D}\u{6E05}\u{7A7A}\u{961F}\u{5217}\u{3002}"
     static let startNeedsFiles = "\u{8BF7}\u{5148}\u{6DFB}\u{52A0}\u{81F3}\u{5C11}\u{4E00}\u{4E2A}\u{7B49}\u{5F85}\u{8F6C}\u{6362}\u{7684}\u{6587}\u{4EF6}\u{3002}"
     static let importSkipped = "\u{5BFC}\u{5165}\u{5DF2}\u{8DF3}\u{8FC7}\u{FF1A}\u{672A}\u{9009}\u{4E2D}\u{53EF}\u{652F}\u{6301}\u{7684}\u{6587}\u{4EF6}\u{3002}"
@@ -89,6 +92,7 @@ enum AppText {
     }
 
     static let logQueueCleared = "\u{5DF2}\u{6E05}\u{7A7A}\u{8F6C}\u{6362}\u{961F}\u{5217}\u{3002}"
+    static let logFolderImportUnavailable = "\u{6587}\u{4EF6}\u{5939}\u{5BFC}\u{5165}\u{6682}\u{672A}\u{542F}\u{7528}\u{FF0C}\u{8BF7}\u{6539}\u{7528}\u{5355}\u{6587}\u{4EF6}\u{5BFC}\u{5165}\u{3002}"
     static let logPauseRequested = "\u{5DF2}\u{8BF7}\u{6C42}\u{6682}\u{505C}\u{3002}"
     static let logQueueResumed = "\u{5DF2}\u{7EE7}\u{7EED}\u{961F}\u{5217}\u{3002}"
     static let logStopRequested = "\u{5DF2}\u{8BF7}\u{6C42}\u{505C}\u{6B62}\u{672C}\u{8F6E}\u{8F6C}\u{6362}\u{3002}"
@@ -111,6 +115,14 @@ enum AppText {
     }
 
     static let queueDetailSaved = "\u{5DF2}\u{4FDD}\u{5B58}\u{5230}\u{5E94}\u{7528}\u{5185}\u{5B58}"
+    static func errorUnsupportedLocalFile(_ extensionName: String) -> String {
+        let normalizedExtension = extensionName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if normalizedExtension.isEmpty {
+            return "\u{8BF7}\u{9009}\u{62E9}\u{53EF}\u{652F}\u{6301}\u{7684}\u{97F3}\u{9891}\u{6216}\u{004B}\u{0047}\u{004D}\u{6587}\u{4EF6}\u{3002}"
+        }
+
+        return "\u{4E0D}\u{652F}\u{6301}\u{8BE5}\u{6587}\u{4EF6}\u{7C7B}\u{578B}\u{FF1A}.\(normalizedExtension)\u{3002}\u{8BF7}\u{9009}\u{62E9}\u{97F3}\u{9891}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{0061}\u{6216}\u{002E}\u{0076}\u{0070}\u{0072}\u{6587}\u{4EF6}\u{3002}"
+    }
     static let errorProtectedPrefix = "\u{68C0}\u{6D4B}\u{5230}\u{53D7}\u{4FDD}\u{62A4}\u{6216}\u{5E73}\u{53F0}\u{79C1}\u{6709}\u{683C}\u{5F0F}\u{FF1A}"
     static let errorProtectedSuffix = "\u{3002}\u{5E94}\u{7528}\u{4E0D}\u{4F1A}\u{89E3}\u{5BC6}\u{6216}\u{8F6C}\u{6362}\u{8FD9}\u{7C7B}\u{6587}\u{4EF6}\u{3002}"
     static func errorMissingOutput(_ code: Int) -> String {

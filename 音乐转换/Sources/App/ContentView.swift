@@ -1,10 +1,56 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import UIKit
 
-private extension UTType {
-    static let kugouKGM = UTType(importedAs: "com.kugou.kgm")
-    static let kugouKGMA = UTType(importedAs: "com.kugou.kgma")
-    static let kugouVPR = UTType(importedAs: "com.kugou.vpr")
+private enum ImportPickerMode: String, Identifiable {
+    case singleFile
+
+    var id: String { rawValue }
+}
+
+private struct SingleFileDocumentPicker: UIViewControllerRepresentable {
+    let onPick: (URL) -> Void
+    let onCancel: () -> Void
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onPick: onPick, onCancel: onCancel)
+    }
+
+    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+        let picker = UIDocumentPickerViewController(
+            forOpeningContentTypes: [.item],
+            asCopy: true
+        )
+        picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = false
+        picker.shouldShowFileExtensions = true
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
+
+    final class Coordinator: NSObject, UIDocumentPickerDelegate {
+        private let onPick: (URL) -> Void
+        private let onCancel: () -> Void
+
+        init(onPick: @escaping (URL) -> Void, onCancel: @escaping () -> Void) {
+            self.onPick = onPick
+            self.onCancel = onCancel
+        }
+
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            onCancel()
+        }
+
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            guard let url = urls.first else {
+                onCancel()
+                return
+            }
+
+            onPick(url)
+        }
+    }
 }
 
 private enum DashboardPanel: String, CaseIterable, Identifiable {
@@ -28,8 +74,7 @@ private enum DashboardPanel: String, CaseIterable, Identifiable {
 
 struct ContentView: View {
     @StateObject private var viewModel = ConversionViewModel()
-    @State private var isAudioImporterPresented = false
-    @State private var isFolderImporterPresented = false
+    @State private var activeImportPicker: ImportPickerMode?
     @State private var selectedPanel: DashboardPanel = .queue
 
     var body: some View {
@@ -76,6 +121,20 @@ struct ContentView: View {
             Button(AppText.alertButton, role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .sheet(item: $activeImportPicker) { picker in
+            switch picker {
+            case .singleFile:
+                SingleFileDocumentPicker(
+                    onPick: { url in
+                        activeImportPicker = nil
+                        viewModel.importSingleFileAndStart(from: url)
+                    },
+                    onCancel: {
+                        activeImportPicker = nil
+                    }
+                )
+            }
         }
     }
 
@@ -166,47 +225,19 @@ struct ContentView: View {
                 title: AppText.buttonImportFolder,
                 systemImage: "folder.badge.plus"
             ) {
-                isFolderImporterPresented = true
-            }
-            .fileImporter(
-                isPresented: $isFolderImporterPresented,
-                allowedContentTypes: [.folder],
-                allowsMultipleSelection: false
-            ) { result in
-                switch result {
-                case let .success(urls):
-                    guard let folderURL = urls.first else {
-                        viewModel.present(error: CocoaError(.fileReadUnknown))
-                        return
-                    }
-                    viewModel.importFolder(from: folderURL)
-                case let .failure(error):
-                    viewModel.present(error: error)
-                }
+                viewModel.presentFolderImportUnavailable()
             }
 
             actionButton(
                 title: AppText.buttonSelectFiles,
                 systemImage: "doc.badge.plus"
             ) {
-                isAudioImporterPresented = true
+                activeImportPicker = .singleFile
             }
-            .fileImporter(
-                isPresented: $isAudioImporterPresented,
-                allowedContentTypes: [.audio, .kugouKGM, .kugouKGMA, .kugouVPR],
-                allowsMultipleSelection: false
-            ) { result in
-                switch result {
-                case let .success(urls):
-                    guard let fileURL = urls.first else {
-                        viewModel.present(error: CocoaError(.fileReadUnknown))
-                        return
-                    }
-                    viewModel.importFile(from: fileURL)
-                case let .failure(error):
-                    viewModel.present(error: error)
-                }
-            }
+
+            Text(AppText.importHintSingleFile)
+                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .foregroundStyle(.white.opacity(0.72))
 
             secondaryButton(
                 title: AppText.buttonClearQueue,

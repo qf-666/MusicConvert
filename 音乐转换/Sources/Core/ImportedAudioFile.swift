@@ -52,11 +52,19 @@ struct ImportedAudioFile {
 
     static func copyingManyFromPicker(_ sourceURLs: [URL]) throws -> [ImportedAudioFile] {
         var importedFiles: [ImportedAudioFile] = []
+        var firstError: Error?
 
         for sourceURL in sourceURLs {
-            if let importedFile = try? copyingFromPicker(sourceURL) {
+            do {
+                let importedFile = try copyingFromPicker(sourceURL)
                 importedFiles.append(importedFile)
+            } catch {
+                firstError = firstError ?? error
             }
+        }
+
+        if importedFiles.isEmpty, let firstError {
+            throw firstError
         }
 
         return importedFiles
@@ -80,6 +88,8 @@ struct ImportedAudioFile {
         }
 
         var importedFiles: [ImportedAudioFile] = []
+        var firstError: Error?
+        var foundSupportedFile = false
 
         for case let fileURL as URL in enumerator {
             let values = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
@@ -92,9 +102,18 @@ struct ImportedAudioFile {
                 continue
             }
 
-            if let importedFile = try? copyResolvedFile(fileURL) {
+            foundSupportedFile = true
+
+            do {
+                let importedFile = try copyResolvedFile(fileURL)
                 importedFiles.append(importedFile)
+            } catch {
+                firstError = firstError ?? error
             }
+        }
+
+        if importedFiles.isEmpty, foundSupportedFile, let firstError {
+            throw firstError
         }
 
         return importedFiles
@@ -112,6 +131,10 @@ struct ImportedAudioFile {
             if let protectedExtension {
                 throw AudioConversionError.protectedVendorFormat(protectedExtension)
             }
+        }
+
+        guard supportedExtensions.contains(ext) else {
+            throw AudioConversionError.unsupportedLocalFile(ext)
         }
 
         let fileManager = FileManager.default
