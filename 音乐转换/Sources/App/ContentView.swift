@@ -56,43 +56,6 @@ struct ContentView: View {
                 .navigationTitle(AppText.appTitle)
             }
         }
-        .fileImporter(
-            isPresented: $isAudioImporterPresented,
-            allowedContentTypes: [
-                .audio,
-                UTType(exportedAs: "com.kugou.kgm"),
-                UTType(exportedAs: "com.kugou.kgma"),
-                UTType(exportedAs: "com.kugou.vpr")
-            ],
-            allowsMultipleSelection: true
-        ) { result in
-            switch result {
-            case let .success(urls):
-                guard !urls.isEmpty else {
-                    viewModel.present(error: CocoaError(.fileReadUnknown))
-                    return
-                }
-                viewModel.importFiles(from: urls)
-            case let .failure(error):
-                viewModel.present(error: error)
-            }
-        }
-        .fileImporter(
-            isPresented: $isFolderImporterPresented,
-            allowedContentTypes: [.folder],
-            allowsMultipleSelection: false
-        ) { result in
-            switch result {
-            case let .success(urls):
-                guard let folderURL = urls.first else {
-                    viewModel.present(error: CocoaError(.fileReadUnknown))
-                    return
-                }
-                viewModel.importFolder(from: folderURL)
-            case let .failure(error):
-                viewModel.present(error: error)
-            }
-        }
         .alert(
             AppText.alertTitle,
             isPresented: Binding(
@@ -199,12 +162,49 @@ struct ContentView: View {
             ) {
                 isFolderImporterPresented = true
             }
+            .fileImporter(
+                isPresented: $isFolderImporterPresented,
+                allowedContentTypes: [.folder],
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                case let .success(urls):
+                    guard let folderURL = urls.first else {
+                        viewModel.present(error: CocoaError(.fileReadUnknown))
+                        return
+                    }
+                    viewModel.importFolder(from: folderURL)
+                case let .failure(error):
+                    viewModel.present(error: error)
+                }
+            }
 
             actionButton(
                 title: AppText.buttonSelectFiles,
                 systemImage: "doc.badge.plus"
             ) {
                 isAudioImporterPresented = true
+            }
+            .fileImporter(
+                isPresented: $isAudioImporterPresented,
+                allowedContentTypes: [
+                    .audio,
+                    UTType(exportedAs: "com.kugou.kgm"),
+                    UTType(exportedAs: "com.kugou.kgma"),
+                    UTType(exportedAs: "com.kugou.vpr")
+                ],
+                allowsMultipleSelection: true
+            ) { result in
+                switch result {
+                case let .success(urls):
+                    guard !urls.isEmpty else {
+                        viewModel.present(error: CocoaError(.fileReadUnknown))
+                        return
+                    }
+                    viewModel.importFiles(from: urls)
+                case let .failure(error):
+                    viewModel.present(error: error)
+                }
             }
 
             secondaryButton(
