@@ -54,7 +54,7 @@ enum KGMDecoder {
 
         // Extract own_key (16 bytes at offset 0x1c)
         var ownKey = [UInt8](repeating: 0, count: Self.ownKeyLen)
-        ownKey[0..<16] = inputData[0x1c..<0x2c][...]
+        ownKey.replaceSubrange(0..<16, with: inputData[0x1c..<0x2c])
 
         // Audio data starts after the 1024-byte header
         let audioData = inputData[Self.headerLen...]
