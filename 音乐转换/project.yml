@@ -20,10 +20,6 @@ targets:
     deploymentTarget: "16.0"
     sources:
       - path: Sources
-        excludes:
-          - Core/Resources/**
-      - path: Sources/Core/Resources
-        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.qf666.musicconvert
