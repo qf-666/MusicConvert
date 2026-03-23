@@ -9,8 +9,8 @@ enum AppText {
     static let panelLog = "\u{65E5}\u{5FD7}"
     static let panelStats = "\u{7EDF}\u{8BA1}"
 
-    static let heroTitle = "本地音频批量转换"
-    static let heroSubtitle = "当前 iOS 版本支持选择单个或多个本地文件，也支持导入文件夹批量转换。转换完成后可在队列中逐个导出结果。"
+    static let heroTitle = "\u{672C}\u{5730}\u{97F3}\u{9891}\u{6279}\u{91CF}\u{8F6C}\u{6362}"
+    static let heroSubtitle = "\u{5F53}\u{524D} iOS \u{7248}\u{672C}\u{652F}\u{6301}\u{9009}\u{62E9}\u{5355}\u{4E2A}\u{6216}\u{591A}\u{4E2A}\u{672C}\u{5730}\u{6587}\u{4EF6}\u{3002}\u{8F6C}\u{6362}\u{5B8C}\u{6210}\u{540E}\u{53EF}\u{5728}\u{961F}\u{5217}\u{4E2D}\u{5355}\u{72EC}\u{5BFC}\u{51FA}\u{FF0C}\u{4E5F}\u{53EF}\u{4E00}\u{6B21}\u{6027}\u{5BFC}\u{51FA}\u{5168}\u{90E8}\u{6210}\u{529F}\u{6587}\u{4EF6}\u{3002}"
 
     static let statTotal = "\u{603B}\u{6570}"
     static let statWaiting = "\u{7B49}\u{5F85}"
@@ -22,26 +22,28 @@ enum AppText {
     static let sectionControls = "\u{63A7}\u{5236}"
     static let sectionProgress = "\u{8FDB}\u{5EA6}"
 
-    static let buttonImportFolder = "导入文件夹"
-    static let buttonSelectFiles = "选择文件（可多选）"
+    static let buttonSelectFiles = "\u{9009}\u{62E9}\u{6587}\u{4EF6}\u{FF08}\u{53EF}\u{591A}\u{9009}\u{FF09}"
     static let buttonClearQueue = "\u{6E05}\u{7A7A}\u{961F}\u{5217}"
     static let buttonPause = "\u{6682}\u{505C}"
     static let buttonResume = "\u{7EE7}\u{7EED}"
     static let buttonStop = "\u{505C}\u{6B62}"
-    static let buttonExportFile = "\u{5BFC}\u{51FA}\u{8F6C}\u{6362}\u{540E}\u{6587}\u{4EF6}"
+    static let buttonExportFile = "\u{5BFC}\u{51FA}\u{6B64}\u{6587}\u{4EF6}"
     static let buttonStartSingle = "\u{5F00}\u{59CB}\u{8F6C}\u{6362}"
     static let buttonStartBatchPrefix = "\u{5F00}\u{59CB}\u{6279}\u{91CF}\u{8F6C}\u{6362}"
+    static func buttonExportAllFiles(_ count: Int) -> String {
+        "\u{5168}\u{90E8}\u{5BFC}\u{51FA}\u{6210}\u{529F}\u{6587}\u{4EF6}\u{FF08}\(count)\u{FF09}"
+    }
 
     static let labelOutputFormat = "\u{8F93}\u{51FA}\u{683C}\u{5F0F}"
     static let labelQuality = "\u{97F3}\u{8D28}"
     static let labelDestination = "\u{5B58}\u{50A8}\u{4F4D}\u{7F6E}"
-    static let labelDestinationDetail = "\u{8F6C}\u{6362}\u{5B8C}\u{7684}\u{6587}\u{4EF6}\u{4F1A}\u{4FDD}\u{5B58}\u{5728}\u{5E94}\u{7528}\u{5185}\u{90E8}\u{5B58}\u{50A8}\u{4E2D}\u{FF0C}\u{53EF}\u{5728}\u{961F}\u{5217}\u{91CC}\u{5355}\u{72EC}\u{5BFC}\u{51FA}\u{3002}"
+    static let labelDestinationDetail = "\u{8F6C}\u{6362}\u{5B8C}\u{7684}\u{6587}\u{4EF6}\u{4F1A}\u{4FDD}\u{5B58}\u{5728}\u{5E94}\u{7528}\u{5185}\u{90E8}\u{5B58}\u{50A8}\u{4E2D}\u{FF0C}\u{53EF}\u{5728}\u{961F}\u{5217}\u{91CC}\u{5355}\u{72EC}\u{5BFC}\u{51FA}\u{FF0C}\u{4E5F}\u{53EF}\u{4F7F}\u{7528}\u{5168}\u{90E8}\u{5BFC}\u{51FA}\u{4E00}\u{6B21}\u{6027}\u{5206}\u{4EAB}\u{3002}"
     static let labelOverall = "\u{603B}\u{8FDB}\u{5EA6}"
     static let labelCurrentFile = "\u{5F53}\u{524D}\u{6587}\u{4EF6}"
 
     static let emptyQueueTitle = "\u{6682}\u{65E0}\u{6587}\u{4EF6}"
-    static let emptyQueueMessage = "点“选择文件（可多选）”或“导入文件夹”后，可批量导入音频或 KGM 文件。"
-    static let importHintSingleFile = "选择 1 个文件会直接开始转换；选择多个文件或整个文件夹会先加入队列，点“开始批量转换”执行。"
+    static let emptyQueueMessage = "\u{70B9}\u{201C}\u{9009}\u{62E9}\u{6587}\u{4EF6}\u{FF08}\u{53EF}\u{591A}\u{9009}\u{FF09}\u{201D}\u{540E}\u{FF0C}\u{53EF}\u{6279}\u{91CF}\u{5BFC}\u{5165}\u{97F3}\u{9891}\u{6216} KGM \u{6587}\u{4EF6}\u{3002}"
+    static let importHintSingleFile = "\u{9009}\u{62E9} 1 \u{4E2A}\u{6587}\u{4EF6}\u{4F1A}\u{76F4}\u{63A5}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{FF1B}\u{9009}\u{62E9}\u{591A}\u{4E2A}\u{6587}\u{4EF6}\u{4F1A}\u{5148}\u{52A0}\u{5165}\u{961F}\u{5217}\u{FF0C}\u{70B9}\u{201C}\u{5F00}\u{59CB}\u{6279}\u{91CF}\u{8F6C}\u{6362}\u{201D}\u{6267}\u{884C}\u{3002}"
     static let emptyLogTitle = "\u{6682}\u{65E0}\u{64CD}\u{4F5C}\u{8BB0}\u{5F55}"
     static let emptyLogMessage = "\u{5BFC}\u{5165}\u{6216}\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{540E}\u{FF0C}\u{65E5}\u{5FD7}\u{4F1A}\u{663E}\u{793A}\u{5728}\u{8FD9}\u{91CC}\u{3002}"
 
@@ -53,7 +55,7 @@ enum AppText {
     static let statsSuccessRate = "\u{6210}\u{529F}\u{7387}"
 
     static let queueSummaryEmpty = "\u{961F}\u{5217}\u{8FD8}\u{6CA1}\u{6709}\u{6587}\u{4EF6}\u{3002}"
-    static let queueSummarySingle = "\u{5DF2}\u{6DFB}\u{52A0}\u{0031}\u{4E2A}\u{6587}\u{4EF6}\u{3002}"
+    static let queueSummarySingle = "\u{5DF2}\u{6DFB}\u{52A0}1\u{4E2A}\u{6587}\u{4EF6}\u{3002}"
     static func queueSummary(total: Int, waiting: Int) -> String {
         "\u{5DF2}\u{6DFB}\u{52A0}\(total)\u{4E2A}\u{6587}\u{4EF6}\u{FF0C}\u{5176}\u{4E2D}\(waiting)\u{4E2A}\u{7B49}\u{5F85}\u{8F6C}\u{6362}\u{3002}"
     }
@@ -79,24 +81,21 @@ enum AppText {
     }
 
     static let importUnsupported = "\u{672A}\u{5BFC}\u{5165}\u{5230}\u{53EF}\u{652F}\u{6301}\u{7684}\u{672C}\u{5730}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{3002}"
-    static let importFolderEmpty = "\u{6240}\u{9009}\u{6587}\u{4EF6}\u{5939}\u{4E2D}\u{6CA1}\u{6709}\u{53EF}\u{652F}\u{6301}\u{7684}\u{97F3}\u{9891}\u{6587}\u{4EF6}\u{3002}"
-    static let importFolderUnavailable = "\u{5F53}\u{524D}\u{0049}\u{004F}\u{0053}\u{7248}\u{672C}\u{5148}\u{53EA}\u{4FDD}\u{8BC1}\u{5355}\u{6587}\u{4EF6}\u{5BFC}\u{5165}\u{53EF}\u{7528}\u{FF0C}\u{8BF7}\u{70B9}\u{201C}\u{9009}\u{62E9}\u{5355}\u{4E2A}\u{6587}\u{4EF6}\u{201D}\u{5BFC}\u{5165}\u{002E}\u{006B}\u{0067}\u{006D}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{0061}\u{3001}\u{002E}\u{0076}\u{0070}\u{0072}\u{6216}\u{5E38}\u{89C4}\u{97F3}\u{9891}\u{3002}"
     static let importBlockedWhileConverting = "\u{8BF7}\u{5148}\u{505C}\u{6B62}\u{5F53}\u{524D}\u{8F6C}\u{6362}\u{FF0C}\u{518D}\u{9009}\u{62E9}\u{65B0}\u{6587}\u{4EF6}\u{3002}"
     static let clearQueueBlocked = "\u{8BF7}\u{5728}\u{672C}\u{8F6E}\u{8F6C}\u{6362}\u{5B8C}\u{6210}\u{540E}\u{518D}\u{6E05}\u{7A7A}\u{961F}\u{5217}\u{3002}"
     static let startNeedsFiles = "\u{8BF7}\u{5148}\u{6DFB}\u{52A0}\u{81F3}\u{5C11}\u{4E00}\u{4E2A}\u{7B49}\u{5F85}\u{8F6C}\u{6362}\u{7684}\u{6587}\u{4EF6}\u{3002}"
     static let importSkipped = "\u{5BFC}\u{5165}\u{5DF2}\u{8DF3}\u{8FC7}\u{FF1A}\u{672A}\u{9009}\u{4E2D}\u{53EF}\u{652F}\u{6301}\u{7684}\u{6587}\u{4EF6}\u{3002}"
     static let queueDuplicate = "\u{6240}\u{9009}\u{6587}\u{4EF6}\u{90FD}\u{5DF2}\u{5728}\u{961F}\u{5217}\u{4E2D}\u{3002}"
-    static let queueAddedSingle = "\u{5DF2}\u{6DFB}\u{52A0}\u{0031}\u{4E2A}\u{6587}\u{4EF6}\u{5230}\u{961F}\u{5217}\u{3002}"
+    static let queueAddedSingle = "\u{5DF2}\u{6DFB}\u{52A0}1\u{4E2A}\u{6587}\u{4EF6}\u{5230}\u{961F}\u{5217}\u{3002}"
     static func queueAdded(_ count: Int) -> String {
         "\u{5DF2}\u{6DFB}\u{52A0}\(count)\u{4E2A}\u{6587}\u{4EF6}\u{5230}\u{961F}\u{5217}\u{3002}"
     }
 
     static let logQueueCleared = "\u{5DF2}\u{6E05}\u{7A7A}\u{8F6C}\u{6362}\u{961F}\u{5217}\u{3002}"
-    static let logFolderImportUnavailable = "\u{6587}\u{4EF6}\u{5939}\u{5BFC}\u{5165}\u{6682}\u{672A}\u{542F}\u{7528}\u{FF0C}\u{8BF7}\u{6539}\u{7528}\u{5355}\u{6587}\u{4EF6}\u{5BFC}\u{5165}\u{3002}"
     static let logPauseRequested = "\u{5DF2}\u{8BF7}\u{6C42}\u{6682}\u{505C}\u{3002}"
     static let logQueueResumed = "\u{5DF2}\u{7EE7}\u{7EED}\u{961F}\u{5217}\u{3002}"
     static let logStopRequested = "\u{5DF2}\u{8BF7}\u{6C42}\u{505C}\u{6B62}\u{672C}\u{8F6E}\u{8F6C}\u{6362}\u{3002}"
-    static let logRunningFFmpeg = "\u{6B63}\u{5728}\u{8C03}\u{7528}\u{0046}\u{0046}\u{006D}\u{0070}\u{0065}\u{0067}"
+    static let logRunningFFmpeg = "\u{6B63}\u{5728}\u{8C03}\u{7528} FFmpeg"
     static func logStarting(_ name: String) -> String {
         "\u{5F00}\u{59CB}\u{8F6C}\u{6362}\u{FF1A}\(name)"
     }
@@ -118,18 +117,18 @@ enum AppText {
     static func errorUnsupportedLocalFile(_ extensionName: String) -> String {
         let normalizedExtension = extensionName.trimmingCharacters(in: .whitespacesAndNewlines)
         if normalizedExtension.isEmpty {
-            return "\u{8BF7}\u{9009}\u{62E9}\u{53EF}\u{652F}\u{6301}\u{7684}\u{97F3}\u{9891}\u{6216}\u{004B}\u{0047}\u{004D}\u{6587}\u{4EF6}\u{3002}"
+            return "\u{8BF7}\u{9009}\u{62E9}\u{53EF}\u{652F}\u{6301}\u{7684}\u{97F3}\u{9891}\u{6216} KGM \u{6587}\u{4EF6}\u{3002}"
         }
 
-        return "\u{4E0D}\u{652F}\u{6301}\u{8BE5}\u{6587}\u{4EF6}\u{7C7B}\u{578B}\u{FF1A}.\(normalizedExtension)\u{3002}\u{8BF7}\u{9009}\u{62E9}\u{97F3}\u{9891}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{3001}\u{002E}\u{006B}\u{0067}\u{006D}\u{0061}\u{6216}\u{002E}\u{0076}\u{0070}\u{0072}\u{6587}\u{4EF6}\u{3002}"
+        return "\u{4E0D}\u{652F}\u{6301}\u{8BE5}\u{6587}\u{4EF6}\u{7C7B}\u{578B}\u{FF1A}.\(normalizedExtension)\u{3002}\u{8BF7}\u{9009}\u{62E9}\u{97F3}\u{9891}\u{3001}.kgm\u{3001}.kgma \u{6216} .vpr \u{6587}\u{4EF6}\u{3002}"
     }
     static let errorProtectedPrefix = "\u{68C0}\u{6D4B}\u{5230}\u{53D7}\u{4FDD}\u{62A4}\u{6216}\u{5E73}\u{53F0}\u{79C1}\u{6709}\u{683C}\u{5F0F}\u{FF1A}"
     static let errorProtectedSuffix = "\u{3002}\u{5E94}\u{7528}\u{4E0D}\u{4F1A}\u{89E3}\u{5BC6}\u{6216}\u{8F6C}\u{6362}\u{8FD9}\u{7C7B}\u{6587}\u{4EF6}\u{3002}"
     static func errorMissingOutput(_ code: Int) -> String {
-        "\u{0046}\u{0046}\u{006D}\u{0070}\u{0065}\u{0067}\u{5DF2}\u{7ED3}\u{675F}\u{FF0C}\u{4F46}\u{6CA1}\u{6709}\u{751F}\u{6210}\u{8F93}\u{51FA}\u{6587}\u{4EF6}\u{3002}\u{9000}\u{51FA}\u{7801}\u{FF1A}\(code)\u{3002}"
+        "FFmpeg \u{5DF2}\u{7ED3}\u{675F}\u{FF0C}\u{4F46}\u{6CA1}\u{6709}\u{751F}\u{6210}\u{8F93}\u{51FA}\u{6587}\u{4EF6}\u{3002}\u{9000}\u{51FA}\u{7801}\u{FF1A}\(code)\u{3002}"
     }
     static func errorFFmpegFailed(_ code: Int) -> String {
-        "\u{0046}\u{0046}\u{006D}\u{0070}\u{0065}\u{0067}\u{8F6C}\u{6362}\u{5931}\u{8D25}\u{3002}\u{9000}\u{51FA}\u{7801}\u{FF1A}\(code)\u{3002}"
+        "FFmpeg \u{8F6C}\u{6362}\u{5931}\u{8D25}\u{3002}\u{9000}\u{51FA}\u{7801}\u{FF1A}\(code)\u{3002}"
     }
 
     static let statusWaiting = "\u{7B49}\u{5F85}"

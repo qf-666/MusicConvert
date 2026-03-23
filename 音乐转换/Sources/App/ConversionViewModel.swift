@@ -23,6 +23,14 @@ final class ConversionViewModel: ObservableObject {
     var failedCount: Int { queueItems.filter { $0.status == .failed }.count }
     var completedCount: Int { queueItems.filter { $0.status.isFinished }.count }
     var remainingCount: Int { totalCount - completedCount }
+    var successfulOutputURLs: [URL] {
+        queueItems.compactMap { item in
+            guard item.status == .success, let outputURL = item.outputURL else {
+                return nil
+            }
+            return outputURL
+        }
+    }
     var overallProgress: Double {
         guard totalCount > 0 else { return 0 }
         return Double(completedCount) / Double(totalCount)
@@ -42,17 +50,6 @@ final class ConversionViewModel: ObservableObject {
         }
     }
 
-    func importFile(from url: URL) {
-        guard canImport() else { return }
-
-        do {
-            let importedFile = try ImportedAudioFile.copyingFromPicker(url)
-            appendImportedFiles([importedFile])
-        } catch {
-            present(error: error)
-        }
-    }
-
     func importFiles(from urls: [URL]) {
         guard canImport() else { return }
 
@@ -61,22 +58,6 @@ final class ConversionViewModel: ObservableObject {
             guard !importedFiles.isEmpty else {
                 errorMessage = AppText.importUnsupported
                 appendLog(AppText.importSkipped)
-                return
-            }
-            appendImportedFiles(importedFiles)
-        } catch {
-            present(error: error)
-        }
-    }
-
-    func importFolder(from url: URL) {
-        guard canImport() else { return }
-
-        do {
-            let importedFiles = try ImportedAudioFile.copyingAudioFilesFromDirectory(url)
-            guard !importedFiles.isEmpty else {
-                errorMessage = AppText.importFolderEmpty
-                appendLog(AppText.logError(AppText.importFolderEmpty))
                 return
             }
             appendImportedFiles(importedFiles)

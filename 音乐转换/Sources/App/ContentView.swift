@@ -4,7 +4,6 @@ import UIKit
 
 private enum ImportPickerMode: String, Identifiable {
     case files
-    case folder
 
     var id: String { rawValue }
 }
@@ -57,6 +56,21 @@ private struct ImportDocumentPicker: UIViewControllerRepresentable {
     }
 }
 
+private struct ShareSheetPayload: Identifiable {
+    let id = UUID()
+    let items: [Any]
+}
+
+private struct ActivityShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
 private enum DashboardPanel: String, CaseIterable, Identifiable {
     case queue
     case log
@@ -79,6 +93,7 @@ private enum DashboardPanel: String, CaseIterable, Identifiable {
 struct ContentView: View {
     @StateObject private var viewModel = ConversionViewModel()
     @State private var activeImportPicker: ImportPickerMode?
+    @State private var activeShareSheet: ShareSheetPayload?
     @State private var selectedPanel: DashboardPanel = .queue
 
     var body: some View {
@@ -145,21 +160,10 @@ struct ContentView: View {
                         activeImportPicker = nil
                     }
                 )
-            case .folder:
-                ImportDocumentPicker(
-                    contentTypes: [.folder],
-                    allowsMultipleSelection: false,
-                    asCopy: false,
-                    onPick: { urls in
-                        activeImportPicker = nil
-                        guard let folderURL = urls.first else { return }
-                        viewModel.importFolder(from: folderURL)
-                    },
-                    onCancel: {
-                        activeImportPicker = nil
-                    }
-                )
             }
+        }
+        .sheet(item: $activeShareSheet) { payload in
+            ActivityShareSheet(activityItems: payload.items)
         }
     }
 
@@ -245,14 +249,6 @@ struct ContentView: View {
     private var importCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             sectionTitle(AppText.sectionImport)
-
-            actionButton(
-                title: AppText.buttonImportFolder,
-                systemImage: "folder.badge.plus"
-            ) {
-                activeImportPicker = .folder
-            }
-            .disabled(viewModel.isConverting)
 
             actionButton(
                 title: AppText.buttonSelectFiles,
@@ -450,6 +446,17 @@ struct ContentView: View {
 
     private var queuePanel: some View {
         VStack(alignment: .leading, spacing: 12) {
+            if !viewModel.successfulOutputURLs.isEmpty {
+                actionButton(
+                    title: exportAllButtonTitle,
+                    systemImage: "square.and.arrow.up.on.square"
+                ) {
+                    activeShareSheet = ShareSheetPayload(
+                        items: viewModel.successfulOutputURLs.map { $0 as Any }
+                    )
+                }
+            }
+
             if viewModel.queueItems.isEmpty {
                 emptyState(
                     title: AppText.emptyQueueTitle,
@@ -656,6 +663,10 @@ struct ContentView: View {
         }
 
         return "\(AppText.buttonStartBatchPrefix) (\(viewModel.waitingCount))"
+    }
+
+    private var exportAllButtonTitle: String {
+        AppText.buttonExportAllFiles(viewModel.successfulOutputURLs.count)
     }
 
     private var statusColor: Color {
