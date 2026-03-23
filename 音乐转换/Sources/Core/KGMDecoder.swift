@@ -1,4 +1,3 @@
-import Compression
 import Foundation
 
 /// Decodes KuGou Music encrypted files (.kgm, .kgma, .vpr).
@@ -11,7 +10,6 @@ enum KGMDecoder {
         case invalidMagicHeader
         case headerTooShort
         case pubKeyLoadFailed
-        case decompressFailed
 
         var errorDescription: String? {
             switch self {
@@ -21,8 +19,6 @@ enum KGMDecoder {
                 return "文件头太短，无法解码。"
             case .pubKeyLoadFailed:
                 return "无法加载 KGM 解密密钥。"
-            case .decompressFailed:
-                return "解密密钥解压失败。"
             }
         }
     }
@@ -46,24 +42,18 @@ enum KGMDecoder {
             throw DecoderError.headerTooShort
         }
 
-        // Verify magic header
         let fileMagic = inputData.prefix(Self.magicHeader.count)
         guard fileMagic.elementsEqual(Self.magicHeader) else {
             throw DecoderError.invalidMagicHeader
         }
 
-        // Extract own_key (16 bytes at offset 0x1c)
         var ownKey = [UInt8](repeating: 0, count: Self.ownKeyLen)
         ownKey.replaceSubrange(0..<16, with: inputData[0x1c..<0x2c])
 
-        // Audio data starts after the 1024-byte header
         let audioData = inputData[Self.headerLen...]
         let audioLength = audioData.count
-
-        // Load the public key table (decompress on demand)
         let pubKey = try loadPubKey()
 
-        // Decode audio
         var decoded = Data(count: audioLength)
         let pubKeyMendCount = Self.pubKeyMend.count
 
@@ -75,11 +65,9 @@ enum KGMDecoder {
                 for i in 0..<audioLength {
                     let byte = src[i]
 
-                    // own_key transform
                     var ownVal = ownKey[i % Self.ownKeyLen] ^ byte
                     ownVal ^= (ownVal & 0x0F) << 4
 
-                    // pub_key transform
                     let pubKeyIndex = i / Self.pubKeyMagnification
                     var pubVal = Self.pubKeyMend[i % pubKeyMendCount]
                     if pubKeyIndex < pubKey.count {
@@ -92,10 +80,8 @@ enum KGMDecoder {
             }
         }
 
-        // Detect the actual audio format from decoded header bytes
         let ext = detectAudioExtension(decoded)
 
-        // Write decoded data to temp file
         let tempDir = FileManager.default.temporaryDirectory
             .appendingPathComponent("KGMDecoded", isDirectory: true)
         try FileManager.default.createDirectory(
@@ -115,8 +101,6 @@ enum KGMDecoder {
     private static let headerLen = 1024
     private static let ownKeyLen = 17
     private static let pubKeyMagnification = 16
-    private static let pubKeyLength = 73_155_904
-
     private static let magicHeader: [UInt8] = [
         0x7C, 0xD5, 0x32, 0xEB, 0x86, 0x02, 0x7F, 0x4B,
         0xA8, 0xAF, 0xA6, 0x8E, 0x0F, 0xFF, 0x99, 0x14,
@@ -147,9 +131,8 @@ enum KGMDecoder {
         0xEF, 0x7C, 0xB6, 0xB3, 0x93, 0x50,
     ]
 
-    // MARK: - Public key loading (LZMA decompression)
+    // MARK: - Public key loading
 
-    /// Cache for the decompressed public key table.
     private static var cachedPubKey: [UInt8]?
 
     private static func loadPubKey() throws -> [UInt8] {
@@ -159,37 +142,19 @@ enum KGMDecoder {
 
         guard let keyURL = Bundle.main.url(
             forResource: "kugou_key",
-            withExtension: "zlib"
+            withExtension: "bin"
         ) else {
             throw DecoderError.pubKeyLoadFailed
         }
 
-        let compressedData = try Data(contentsOf: keyURL)
-        let decompressed = try decompressPubKey(compressedData)
-        cachedPubKey = decompressed
-        return decompressed
-    }
-
-    /// Decompresses the bundled public key that is prepacked with zlib.
-    private static func decompressPubKey(_ data: Data) throws -> [UInt8] {
-        var decompressed = [UInt8](repeating: 0, count: Self.pubKeyLength)
-        let decompressedSize = data.withUnsafeBytes { srcPtr -> Int in
-            let srcBuffer = srcPtr.bindMemory(to: UInt8.self)
-            return compression_decode_buffer(
-                &decompressed,
-                decompressed.count,
-                srcBuffer.baseAddress!,
-                srcBuffer.count,
-                nil,
-                COMPRESSION_ZLIB
-            )
+        let pubKeyData = try Data(contentsOf: keyURL)
+        let pubKey = [UInt8](pubKeyData)
+        guard !pubKey.isEmpty else {
+            throw DecoderError.pubKeyLoadFailed
         }
 
-        guard decompressedSize == decompressed.count else {
-            throw DecoderError.decompressFailed
-        }
-
-        return decompressed
+        cachedPubKey = pubKey
+        return pubKey
     }
 
     // MARK: - Audio format detection
@@ -202,23 +167,18 @@ enum KGMDecoder {
         let b2 = data[data.startIndex + 2]
         let b3 = data[data.startIndex + 3]
 
-        // FLAC: "fLaC"
         if b0 == 0x66 && b1 == 0x4C && b2 == 0x61 && b3 == 0x43 {
             return "flac"
         }
-        // OGG: "OggS"
         if b0 == 0x4F && b1 == 0x67 && b2 == 0x67 && b3 == 0x53 {
             return "ogg"
         }
-        // MP3: ID3 tag or sync word
         if (b0 == 0x49 && b1 == 0x44 && b2 == 0x33) || (b0 == 0xFF && (b1 & 0xE0) == 0xE0) {
             return "mp3"
         }
-        // WAV: "RIFF"
         if b0 == 0x52 && b1 == 0x49 && b2 == 0x46 && b3 == 0x46 {
             return "wav"
         }
-        // M4A/AAC: "ftyp" at bytes 4-7
         if data.count >= 8 {
             let b4 = data[data.startIndex + 4]
             let b5 = data[data.startIndex + 5]
