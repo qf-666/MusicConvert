@@ -21,13 +21,12 @@ struct AudioConversionService {
             attributes: nil
         )
 
-        let outputURL = outputDirectory
-            .appendingPathComponent(uniqueOutputStem(for: input.baseName))
-            .appendingPathExtension(outputFormat.fileExtension)
-
-        if fileManager.fileExists(atPath: outputURL.path) {
-            try fileManager.removeItem(at: outputURL)
-        }
+        let outputURL = uniqueOutputURL(
+            in: outputDirectory,
+            baseName: input.originalBaseName,
+            fileExtension: outputFormat.fileExtension,
+            fileManager: fileManager
+        )
 
         let arguments = [
             "ffmpeg",
@@ -54,7 +53,30 @@ struct AudioConversionService {
         return outputURL
     }
 
-    private func uniqueOutputStem(for baseName: String) -> String {
-        "\(baseName)-converted-\(UUID().uuidString.prefix(8))"
+    private func uniqueOutputURL(
+        in directory: URL,
+        baseName: String,
+        fileExtension: String,
+        fileManager: FileManager
+    ) -> URL {
+        let sanitizedBaseName = baseName.isEmpty ? "converted" : baseName
+        var candidate = directory
+            .appendingPathComponent(sanitizedBaseName)
+            .appendingPathExtension(fileExtension)
+
+        if !fileManager.fileExists(atPath: candidate.path) {
+            return candidate
+        }
+
+        var index = 2
+        while true {
+            candidate = directory
+                .appendingPathComponent("\(sanitizedBaseName)-\(index)")
+                .appendingPathExtension(fileExtension)
+            if !fileManager.fileExists(atPath: candidate.path) {
+                return candidate
+            }
+            index += 1
+        }
     }
 }

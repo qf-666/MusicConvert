@@ -35,6 +35,10 @@ struct ImportedAudioFile {
         localURL.deletingPathExtension().lastPathComponent
     }
 
+    var originalBaseName: String {
+        URL(fileURLWithPath: originalName).deletingPathExtension().lastPathComponent
+    }
+
     var byteCountDescription: String {
         ByteCountFormatter.string(fromByteCount: byteCount, countStyle: .file)
     }
